@@ -1,8 +1,5 @@
-/*
-  Riot.js 0.9.4 | moot.it/riotjs | @license MIT
-  (c) 2013 Tero Piirainen, Moot Inc and other contributors.
- */
-(functtion(top) {
+/* Riot.js 0.9.4 | moot.it/riotjs | @license MIT | (c) 2013 Tero Piirainen, Moot Inc, other contributors */
+(function(top) {
   "use strict";
 
   var $ = top.$, // jQuery or Zepto
@@ -47,20 +44,6 @@
     return obj;
   };
 
-  // jQueried window object
-  var $win = $(top);
-
-  // emit window.popstate event consistently on page load, on every browser
-  var page_popped;
-
-  $win.on("load", function(e) {
-    top.setTimeout(function() { page_popped || $win.trigger(pop_event_name); }, 1);
-
-  }).on(pop_event_name, function(e) {
-    if (!page_popped) page_popped = true;
-
-  });
-
   // Change the browser URL or listen to changes on the URL
   $.route = function(to) {
 
@@ -77,5 +60,19 @@
     }
 
   };
+
+  // jQueried window object
+  var $win = $(top);
+
+  // emit window.popstate event consistently on page load, on every browser
+  var page_popped;
+
+  $win.on("load", function(e) {
+    top.setTimeout(function() { page_popped || $win.trigger(pop_event_name); }, 1);
+
+  }).on(pop_event_name, function(e) {
+    if (!page_popped) page_popped = true;
+
+  });
 
 })(window);
