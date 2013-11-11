@@ -6,8 +6,10 @@
       pop_event_name = 'popstate',
       empty_string = '',
       slice = [].slice, // A classic pattern for separating concerns
-      $win = $(top); // jQueried window object
-
+      $win = $(top), // jQueried window object
+      pushState = top.history.pushState, //Allow minification when repeated
+      locationHash = top.location.hash; //Allow minification when repeated
+      
   // avoid multiple execution. popstate should be fired only once etc.
   if ($.riot) return;
 
@@ -51,12 +53,12 @@
     // listen
     if ($.isFunction(to)) {
       $win.on(pop_event_name, function(e, hash) {
-        to(hash || top.location.hash);
+        to(hash || locationHash);
       });
 
     // fire
-    } else if (to != top.location.hash) {
-      if (top.history.pushState) top.history.pushState(empty_string, empty_string, to);
+    } else if (to != locationHash) {
+      if (pushState) pushState(empty_string, empty_string, to);
       $win.trigger(pop_event_state, [to]);
     }
 
