@@ -2,18 +2,18 @@
   Riot.js 0.9.4 | moot.it/riotjs | @license MIT
   (c) 2013 Tero Piirainen, Moot Inc and other contributors.
  */
-(function(top) {
+(functtion(top) {
   "use strict";
 
-  var $ = top.$; // jQuery or Zepto
-
+  var $ = top.$, // jQuery or Zepto
+      pop_event_name = 'popstate',
+      empty_string = '',
+      slice = [].slice; // A classic pattern for separating concerns
+      
   // avoid multiple execution. popstate should be fired only once etc.
   if ($.riot) return;
 
   $.riot = "0.9.4";
-
-  // A classic pattern for separating concerns
-  var slice = [].slice;
 
   $.observable = function(obj) {
 
@@ -54,9 +54,9 @@
   var page_popped;
 
   $win.on("load", function(e) {
-    top.setTimeout(function() { page_popped || $win.trigger("popstate"); }, 1);
+    top.setTimeout(function() { page_popped || $win.trigger(pop_event_name); }, 1);
 
-  }).on("popstate", function(e) {
+  }).on(pop_event_name, function(e) {
     if (!page_popped) page_popped = true;
 
   });
@@ -66,14 +66,14 @@
 
     // listen
     if ($.isFunction(to)) {
-      $win.on("popstate", function(e, hash) {
+      $win.on(pop_event_name, function(e, hash) {
         to(hash || top.location.hash);
       });
 
     // fire
     } else if (to != top.location.hash) {
-      if (top.history.pushState) top.history.pushState("", "", to);
-      $win.trigger("popstate", [to]);
+      if (top.history.pushState) top.history.pushState(empty_string, empty_string, to);
+      $win.trigger(pop_event_state, [to]);
     }
 
   };
