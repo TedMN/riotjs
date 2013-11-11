@@ -59,7 +59,7 @@
     // fire
     } else if (to != locationHash) {
       if (pushState) pushState(empty_string, empty_string, to);
-      $win.trigger(pop_event_state, [to]);
+      $win.trigger(pop_event_name, [to]);
     }
 
   };
@@ -69,6 +69,7 @@
 
   $win.on('load', function(e) {
     //Must avoid timeout
+    //Plus this is depricated 
     top.setTimeout(function() { page_popped || $win.trigger(pop_event_name); }, 1);
 
   }).on(pop_event_name, function(e) {
