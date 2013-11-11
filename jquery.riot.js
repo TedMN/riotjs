@@ -67,12 +67,11 @@
   // emit window.popstate event consistently on page load, on every browser
   var page_popped;
 
-  $win.on('load', function(e) {
-    //Must avoid timeout
-    //Plus this is depricated 
+  $win.ready(function() { //Ready as load event is depricated.
+    //Must avoid timeout.
     top.setTimeout(function() { page_popped || $win.trigger(pop_event_name); }, 1);
 
-  }).on(pop_event_name, function(e) {
+  }).on(pop_event_name, function() {
     //Called all the time, not ideal, plus not leveraging jQuery
     if (!page_popped) page_popped = true;
 
