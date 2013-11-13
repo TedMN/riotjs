@@ -7,7 +7,7 @@
   	  compile = function (template) {
 	  	//Here one could - Strip out <script...> ... </script> and strip out eval() if in events like on click.
   	  	return function(data){
-  	  	  return typeof data === '[object]' && template.replace(regEx, function(match) { return data[match] ? data[match] : ''; });
+  	  	  return typeof data === 'object' && template.replace(regEx, function(match) { return data[match] ? data[match] : ''; });
   	  	};
       };
 
@@ -21,15 +21,15 @@
    * } 	 
    */
   $.render = function(params) {
-	var params = params || {}, name = params.name, template = params.template, data = params.data, t = null;
+	var params = params || {}, name = params.name, template = params.template, data = params.data, process = null;
 	  
 	if(template) {
-	  templates[name] = compiled = compile(template);
+	  templates[name] = process = compile(template);
 	} else if (name) {
-	  compiled = templates[name];
+	  process = templates[name];
 	}
 	  
-	return compiled && compiled(data);
+	return process && process(data);
   };
     
 })(window);
