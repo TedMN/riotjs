@@ -37,14 +37,14 @@
   //Argue that template management is the job of the developer, because what if they load 300 templates, should I save all of them, memory management, etc.
   $.renderer = function(template) {  //Store here to avoid being defined every time render is called
 	return function(data){
- 	  return $.isObject(data) && template.replace(regEx, function(match) { return data[match] || ''; });
+ 	  return typeof data === 'object' && template.replace(regEx, function(tag, match) { return data[match] || ''; });
  	}; 
   };
   
   //Option 3
   //Super minimal but solid, regEx still defined in scope.
   $.render = function(data, template){
-    return $.isObject(data) && typeof template === 'string' && template.replace(regEx, function(match) { return data[match] || ''; });
+    return typeof data === 'object' && typeof template === 'string' && template.replace(regEx, function(tag, match) { return data[match] || ''; });
   };
 
   //Option 4
@@ -53,7 +53,7 @@
 	var output = [];
 	$(this).each(function (i, element) {
 		if(output$.isObject(data) && typeof template === 'string')
-			output = template.replace(regEx, function(match) { return data[match] || ''; });
+			output = template.replace(regEx, function(tag, match) { return data[match] || ''; });
 	});
     return $(output.join(''));
   };
